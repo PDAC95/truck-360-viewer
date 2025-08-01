@@ -1,0 +1,127 @@
+// client/src/styles/_variables.scss
+
+// 🎨 MINIMALIST APPLE-INSPIRED PALETTE
+$primary: #dc2626; // Rojo original
+$primary-light: #ef4444; // Rojo claro
+$primary-dark: #b91c1c; // Rojo oscuro
+$secondary: #6b7280; // Gris neutral
+$accent: #f97316; // Naranja sutil
+
+// 🌑 ULTRA-DARK THEME
+$black: #000000;
+$gray-950: #030712; // Negro absoluto
+$gray-900: #111827; // Negro profundo
+$gray-800: #1f2937; // Gris muy oscuro
+$gray-700: #374151; // Gris oscuro
+$gray-600: #4b5563; // Gris medio
+$gray-500: #6b7280; // Gris neutral
+$gray-400: #9ca3af; // Gris claro
+$white: #ffffff;
+
+$body-bg: $black;
+$body-color: $white;
+
+// 🔥 SUBTLE GLOW SYSTEM
+$glow-primary: rgba(220, 38, 38, 0.4);
+$glow-white: rgba(255, 255, 255, 0.2);
+$glow-subtle: rgba(255, 255, 255, 0.1);
+
+// 🎭 CLEAN THEME COLORS
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "dark": $gray-900,
+  "light": $gray-400,
+  "danger": $primary,
+  "success": #22c55e,
+  "warning": #f59e0b,
+  "info": $gray-500,
+);
+
+// 📐 APPLE-STYLE MEASUREMENTS
+$border-radius: 12px; // Apple's standard radius
+$border-radius-sm: 8px;
+$border-radius-lg: 16px;
+$border-radius-xl: 24px;
+$border-radius-pill: 50rem;
+
+// 🎬 SMOOTH ANIMATION SYSTEM
+$duration-instant: 0.1s;
+$duration-fast: 0.2s;
+$duration-normal: 0.3s;
+$duration-slow: 0.5s;
+$duration-ultra: 0.8s;
+
+// Apple's signature easing curves
+$ease-apple: cubic-bezier(0.25, 0.1, 0.25, 1);
+$ease-ios: cubic-bezier(0.4, 0, 0.2, 1);
+$ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+
+// 🔮 MINIMAL GLASS EFFECTS
+$glass-bg: rgba(0, 0, 0, 0.6);
+$glass-border: rgba(255, 255, 255, 0.08);
+$glass-blur: 40px;
+
+// 🎯 SLIDER SPECIFICATIONS
+$slider-height: 4px;
+$slider-track-bg: rgba(255, 255, 255, 0.1);
+$slider-thumb-size: 20px;
+$slider-active-bg: $primary;
+
+// 🎪 APPLE-STYLE SHADOWS
+$shadow-minimal: 0 1px 3px rgba(0, 0, 0, 0.2);
+$shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-medium: 0 10px 15px rgba(0, 0, 0, 0.2);
+$shadow-large: 0 20px 25px rgba(0, 0, 0, 0.3);
+$shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.4);
+
+// 📱 APPLE BREAKPOINTS
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 1024px,
+  // iPad landscape
+  xl: 1280px,
+  // Desktop
+  xxl: 1440px // Large desktop,
+);
+
+// 🔤 APPLE TYPOGRAPHY
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+  "Segoe UI", system-ui, sans-serif;
+$font-family-mono: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace;
+
+$font-weight-thin: 100;
+$font-weight-light: 200;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-heavy: 800;
+$font-weight-black: 900;
+
+// 📏 MINIMAL SPACING
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  // 4px
+  2: $spacer * 0.5,
+  // 8px
+  3: $spacer * 0.75,
+  // 12px
+  4: $spacer,
+  // 16px
+  5: $spacer * 1.5,
+  // 24px
+  6: $spacer * 2,
+  // 32px
+  7: $spacer * 3,
+  // 48px
+  8: $spacer * 4,
+  // 64px
+  9: $spacer * 6,
+  // 96px
+  10: $spacer * 8 // 128px,
+);

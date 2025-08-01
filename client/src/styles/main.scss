@@ -1,0 +1,472 @@
+// client/src/styles/main.scss
+
+// 🎨 IMPORTAR VARIABLES CUSTOM PRIMERO
+@import "variables";
+
+// 📦 IMPORTAR BOOTSTRAP CON NUESTRAS VARIABLES
+@import "~bootstrap/scss/bootstrap";
+
+// 🌍 APPLE-STYLE GLOBAL FOUNDATION
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: $black;
+  color: $body-color;
+  font-family: $font-family-sans-serif;
+  font-weight: $font-weight-normal;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  background: $black;
+}
+
+// 🎯 MINIMAL UTILITIES
+.glass-minimal {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.border-subtle {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+// 🎨 HERO LAYOUT LIKE APPLE
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.product-showcase {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+// 🖼️ APPLE-STYLE 360° VIEWER
+.viewer-360-main {
+  position: relative;
+  margin-bottom: 4rem;
+
+  .viewer-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    background: $black;
+    border-radius: $border-radius-xl;
+    overflow: hidden;
+
+    .viewer-image-area {
+      position: relative;
+      aspect-ratio: 16/10;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: $border-radius-xl;
+      overflow: hidden;
+
+      &:hover {
+        border-color: rgba(220, 38, 38, 0.3);
+        transition: border-color $duration-normal $ease-apple;
+      }
+
+      .placeholder-content {
+        text-align: center;
+
+        .loading-indicator {
+          width: 40px;
+          height: 40px;
+          border: 2px solid rgba(255, 255, 255, 0.1);
+          border-top: 2px solid $primary;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin: 0 auto 1.5rem;
+        }
+
+        h3 {
+          color: $white;
+          font-size: 1.5rem;
+          font-weight: $font-weight-semibold;
+          margin-bottom: 0.5rem;
+        }
+
+        p {
+          color: $gray-500;
+          font-size: 1rem;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+// 🎚️ APPLE-STYLE ROTATION SLIDER
+.rotation-control {
+  position: relative;
+  max-width: 600px;
+  margin: 3rem auto 4rem;
+  padding: 0 2rem;
+
+  .control-label {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    h4 {
+      color: $white;
+      font-size: 1.125rem;
+      font-weight: $font-weight-semibold;
+      margin-bottom: 0.5rem;
+    }
+
+    .frame-info {
+      color: $gray-500;
+      font-size: 0.875rem;
+      font-weight: $font-weight-normal;
+    }
+  }
+
+  .slider-wrapper {
+    position: relative;
+    height: 44px; // Apple's touch target size
+    display: flex;
+    align-items: center;
+
+    .slider-track {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: $slider-height;
+      background: $slider-track-bg;
+      border-radius: 2px;
+      overflow: hidden;
+
+      .slider-progress {
+        height: 100%;
+        background: $primary;
+        border-radius: inherit;
+        transition: width $duration-fast $ease-ios;
+        width: 0%;
+      }
+    }
+
+    .slider-input {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      margin: 0;
+
+      &::-webkit-slider-thumb {
+        appearance: none;
+        width: $slider-thumb-size;
+        height: $slider-thumb-size;
+        border-radius: 50%;
+        background: $white;
+        cursor: pointer;
+        border: 2px solid $black;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3),
+          0 0 0 1px rgba(255, 255, 255, 0.1);
+        transition: all $duration-normal $ease-apple;
+
+        &:hover {
+          transform: scale(1.1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4),
+            0 0 0 2px rgba(220, 38, 38, 0.3);
+        }
+
+        &:active {
+          transform: scale(1.05);
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4),
+            0 0 0 3px rgba(220, 38, 38, 0.4);
+        }
+      }
+
+      &::-moz-range-thumb {
+        width: $slider-thumb-size;
+        height: $slider-thumb-size;
+        border-radius: 50%;
+        background: $white;
+        cursor: pointer;
+        border: 2px solid $black;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .slider-thumb-visual {
+      position: absolute;
+      width: $slider-thumb-size;
+      height: $slider-thumb-size;
+      background: $white;
+      border-radius: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+      transition: all $duration-normal $ease-apple;
+      z-index: 2;
+    }
+  }
+}
+
+// 🎬 MINIMAL VIDEO GALLERY
+.video-section {
+  margin-top: 6rem;
+
+  .section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+
+    h3 {
+      color: $white;
+      font-size: 2rem;
+      font-weight: $font-weight-semibold;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: $gray-500;
+      font-size: 1.125rem;
+      margin: 0;
+    }
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .video-card {
+    position: relative;
+    cursor: pointer;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    background: $gray-950;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all $duration-normal $ease-apple;
+
+    &:hover {
+      transform: translateY(-4px);
+      border-color: rgba(220, 38, 38, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 60px rgba(220, 38, 38, 0.1);
+
+      .video-overlay {
+        opacity: 1;
+      }
+
+      .play-button {
+        transform: scale(1.1);
+      }
+    }
+
+    .video-thumbnail {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, $gray-900 0%, $gray-800 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .video-icon {
+        font-size: 3rem;
+        filter: grayscale(1) brightness(0.7);
+        transition: filter $duration-normal $ease-apple;
+      }
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity $duration-normal $ease-apple;
+
+      .play-button {
+        width: 60px;
+        height: 60px;
+        background: $white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform $duration-normal $ease-apple;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+
+        &::before {
+          content: "";
+          width: 0;
+          height: 0;
+          border-left: 16px solid $black;
+          border-top: 10px solid transparent;
+          border-bottom: 10px solid transparent;
+          margin-left: 4px;
+        }
+      }
+    }
+
+    .video-info {
+      padding: 1.25rem;
+
+      .video-title {
+        color: $white;
+        font-size: 1rem;
+        font-weight: $font-weight-medium;
+        margin-bottom: 0.25rem;
+        line-height: 1.4;
+      }
+
+      .video-meta {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+
+        .video-duration {
+          color: $gray-500;
+          font-size: 0.875rem;
+          font-weight: $font-weight-normal;
+        }
+
+        .video-type {
+          color: $primary;
+          font-size: 0.75rem;
+          font-weight: $font-weight-medium;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+  }
+}
+
+// 🔄 MINIMAL LOADING ANIMATION
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// 📱 APPLE-STYLE RESPONSIVE
+@media (max-width: 768px) {
+  .product-showcase {
+    padding: 0 1rem;
+  }
+
+  .rotation-control {
+    padding: 0 1rem;
+    margin: 2rem auto 3rem;
+  }
+
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .viewer-360-main {
+    margin-bottom: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    min-height: auto;
+    padding: 1rem 0;
+  }
+
+  .section-title h3 {
+    font-size: 1.5rem;
+  }
+
+  .rotation-control .control-label h4 {
+    font-size: 1rem;
+  }
+}
+
+// 🎨 SUBTLE HOVER STATES
+.btn {
+  transition: all $duration-normal $ease-apple;
+  font-weight: $font-weight-medium;
+
+  &.btn-primary {
+    background: $primary;
+    border-color: $primary;
+
+    &:hover {
+      background: $primary-light;
+      border-color: $primary-light;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+// 🔤 TYPOGRAPHY REFINEMENTS
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: $font-weight-semibold;
+  line-height: 1.2;
+}
+
+.display-1,
+.display-2,
+.display-3,
+.display-4 {
+  font-weight: $font-weight-bold;
+  line-height: 1.1;
+}
+
+// 🎪 MINIMAL SHADOWS
+.shadow-minimal {
+  box-shadow: $shadow-minimal;
+}
+.shadow-soft {
+  box-shadow: $shadow-soft;
+}
+.shadow-medium {
+  box-shadow: $shadow-medium;
+}
+.shadow-large {
+  box-shadow: $shadow-large;
+}
