@@ -24,9 +24,70 @@ function App() {
         //   setProduct(products[0]);
         // }
 
-        // Usar mock data por ahora
+        // Usar mock data actualizado
         await new Promise((resolve) => setTimeout(resolve, 500)); // Simular delay
-        setProduct(mockProductData);
+
+        const updatedMockData = {
+          ...mockProductData,
+          name: "Semi Casual Truck",
+          sku: "SCT-2025-001",
+          description:
+            "Experience our premium truck collection with interactive 360° viewing technology. Drag to explore every angle and detail of our carefully crafted vehicles.",
+          videos: [
+            {
+              id: "video-1",
+              title: "Video 1",
+              duration: "2:30",
+              type: "demo" as const,
+              videoUrl:
+                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+              thumbnailUrl: "https://picsum.photos/400/225?random=201",
+              description: "First demonstration video",
+            },
+            {
+              id: "video-2",
+              title: "Video 2",
+              duration: "3:15",
+              type: "tutorial" as const,
+              videoUrl:
+                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+              thumbnailUrl: "https://picsum.photos/400/225?random=202",
+              description: "Second tutorial video",
+            },
+            {
+              id: "video-3",
+              title: "Video 3",
+              duration: "1:45",
+              type: "guide" as const,
+              videoUrl:
+                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+              thumbnailUrl: "https://picsum.photos/400/225?random=203",
+              description: "Third guide video",
+            },
+            {
+              id: "video-4",
+              title: "Video 4",
+              duration: "4:20",
+              type: "installation" as const,
+              videoUrl:
+                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+              thumbnailUrl: "https://picsum.photos/400/225?random=204",
+              description: "Fourth installation video",
+            },
+            {
+              id: "video-5",
+              title: "Video 5",
+              duration: "2:55",
+              type: "maintenance" as const,
+              videoUrl:
+                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+              thumbnailUrl: "https://picsum.photos/400/225?random=205",
+              description: "Fifth maintenance video",
+            },
+          ],
+        };
+
+        setProduct(updatedMockData);
       } catch (error) {
         console.error("Error loading product:", error);
         // Fallback a mock data si falla API
@@ -81,7 +142,16 @@ function App() {
         <div className="container-fluid py-3">
           <div className="row align-items-center">
             <div className="col-6">
-              <h1 className="h5 text-white mb-0 fw-semibold">Truck 360°</h1>
+              <img
+                src="https://res.cloudinary.com/dzwmrurhg/image/upload/v1754074682/logo.png"
+                alt="Company Logo"
+                className="h-auto"
+                style={{
+                  maxHeight: "40px",
+                  maxWidth: "200px",
+                  objectFit: "contain",
+                }}
+              />
             </div>
             <div className="col-6 text-end">
               <span className="badge bg-primary px-3 py-1 rounded-pill">
@@ -98,13 +168,15 @@ function App() {
           {/* 📋 Product Title Section */}
           <div className="text-center mb-5">
             <h2 className="display-3 text-white fw-bold mb-3">
-              {product.name}
+              Semi Casual Truck
             </h2>
             <p
               className="fs-4 text-secondary mb-4"
-              style={{ maxWidth: "600px", margin: "0 auto" }}
+              style={{ maxWidth: "700px", margin: "0 auto" }}
             >
-              {product.description}
+              Experience our premium truck collection with interactive 360°
+              viewing technology. Drag to explore every angle and detail of our
+              carefully crafted vehicles.
             </p>
             <div className="d-flex justify-content-center gap-3">
               <span className="badge bg-dark border-subtle px-4 py-2 rounded-pill">
@@ -160,11 +232,11 @@ function App() {
             </div>
           </div>
 
-          {/* 🎬 Minimal Video Gallery */}
+          {/* 🎬 Video Gallery con 5 videos */}
           <div className="video-section">
             <div className="section-title">
               <h3>Learn more</h3>
-              <p>Installation guides and product demonstrations</p>
+              <p>Comprehensive guides and demonstrations</p>
             </div>
 
             <div className="video-grid">
@@ -175,15 +247,7 @@ function App() {
                   onClick={() => handleVideoSelect(video)}
                 >
                   <div className="video-thumbnail">
-                    <span className="video-icon">
-                      {video.type === "installation"
-                        ? "🔧"
-                        : video.type === "demo"
-                        ? "🎯"
-                        : video.type === "maintenance"
-                        ? "⚙️"
-                        : "🎬"}
-                    </span>
+                    <span className="video-icon">🎬</span>
                   </div>
 
                   <div className="video-overlay">
@@ -194,47 +258,10 @@ function App() {
                     <h6 className="video-title">{video.title}</h6>
                     <div className="video-meta d-flex justify-content-between align-items-center">
                       <span className="video-duration">{video.duration}</span>
-                      <span className="video-type">{video.type}</span>
                     </div>
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* 📱 Technical Specs - Apple Style */}
-          <div className="mt-6 pt-5 border-top border-subtle">
-            <div className="row g-4 text-center">
-              <div className="col-6 col-md-3">
-                <div className="mb-2">
-                  <span className="fs-4">📸</span>
-                </div>
-                <h6 className="text-white fw-medium mb-1">Resolution</h6>
-                <p className="text-secondary small mb-0">4K Ultra HD</p>
-              </div>
-              <div className="col-6 col-md-3">
-                <div className="mb-2">
-                  <span className="fs-4">🔄</span>
-                </div>
-                <h6 className="text-white fw-medium mb-1">Frames</h6>
-                <p className="text-secondary small mb-0">
-                  {product.totalImages} Images
-                </p>
-              </div>
-              <div className="col-6 col-md-3">
-                <div className="mb-2">
-                  <span className="fs-4">🎨</span>
-                </div>
-                <h6 className="text-white fw-medium mb-1">Format</h6>
-                <p className="text-secondary small mb-0">PNG Alpha</p>
-              </div>
-              <div className="col-6 col-md-3">
-                <div className="mb-2">
-                  <span className="fs-4">⚡</span>
-                </div>
-                <h6 className="text-white fw-medium mb-1">Loading</h6>
-                <p className="text-secondary small mb-0">Optimized</p>
-              </div>
             </div>
           </div>
         </div>
@@ -252,7 +279,7 @@ function App() {
         <div className="container-fluid">
           <div className="text-center">
             <p className="text-secondary small mb-0">
-              © 2025 Truck 360° Platform. Built for modern visualization.
+              © 2025 Semi Casual Truck Platform. Built for modern visualization.
             </p>
           </div>
         </div>

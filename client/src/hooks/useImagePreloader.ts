@@ -163,7 +163,7 @@ export const useProductImagePreloader = (
   const imageUrls = Array.from({ length: totalImages }, (_, index) => {
     const paddedFrame = String(index + 1).padStart(3, "0");
     // Usar tus imágenes reales de Cloudinary
-    return `https://res.cloudinary.com/dzwmruhg/image/upload/c_fit,w_800,h_600,q_auto,f_auto/360/Truck_${paddedFrame}.png`;
+    return `https://res.cloudinary.com/dzwmrurhg/image/upload/v1754074681/Truck_${paddedFrame}.png`;
   });
 
   return useImagePreloader({
