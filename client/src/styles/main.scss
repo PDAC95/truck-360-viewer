@@ -6,6 +6,10 @@
 // 📦 IMPORTAR BOOTSTRAP
 @import "~bootstrap/scss/bootstrap";
 
+// 🎯 IMPORTAR COMPONENTES
+@import "VideoGallery";
+@import "Viewer";
+
 // 🌍 FOUNDATION
 * {
   box-sizing: border-box;

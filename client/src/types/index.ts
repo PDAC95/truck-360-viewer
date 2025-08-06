@@ -13,14 +13,15 @@ export interface Product {
   updatedAt?: string;
 }
 
-// 🎬 Video Data Types
+// 🎬 Video Data Types - SIMPLIFICADO
 export interface ProductVideo {
   id: string;
   title: string;
-  duration: string;
   videoUrl: string;
   thumbnailUrl: string;
-  type: VideoType;
+  // Propiedades opcionales por si las necesitas en el futuro
+  duration?: string;
+  type?: VideoType;
   description?: string;
 }
 
