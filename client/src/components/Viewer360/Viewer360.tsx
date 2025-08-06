@@ -20,7 +20,7 @@ const Viewer360 = forwardRef<
   Viewer360Props & { currentFrame?: number }
 >(
   (
-    { productId, totalImages = 40, currentFrame: externalFrame, onFrameChange },
+    { productId, totalImages = 16, currentFrame: externalFrame, onFrameChange },
     ref
   ) => {
     const mountRef = useRef<HTMLDivElement>(null);
@@ -47,15 +47,15 @@ const Viewer360 = forwardRef<
     // 🔗 Exponer métodos al componente padre
     useImperativeHandle(ref, () => ({
       setFrame: (frame: number) => {
-        changeFrame(frame - 1); // Convertir de índice 1-based a 0-based
+        changeFrame(frame - 1);
       },
-      getCurrentFrame: () => frameRef.current + 1, // Convertir a índice 1-based
+      getCurrentFrame: () => frameRef.current + 1,
     }));
 
     // 🔧 Generar URL correcta de Cloudinary
     const getImageUrl = useCallback((index: number): string => {
       const paddedFrame = String(index + 1).padStart(3, "0");
-      return `https://res.cloudinary.com/dzwmrurhg/image/upload/v1754074682/Truck_${paddedFrame}.png`;
+      return `https://res.cloudinary.com/dzwmrurhg/image/upload/v1754484517/Truck_${paddedFrame}.png`;
     }, []);
 
     // 🎬 Inicializar Three.js Scene
@@ -67,9 +67,9 @@ const Viewer360 = forwardRef<
 
       console.log("🎯 Initializing Three.js:", { width, height });
 
-      // Scene
+      // Scene con el mismo gris que el panel
       const scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x000000);
+      scene.background = new THREE.Color(0x111827);
       sceneRef.current = scene;
 
       // Camera
@@ -87,7 +87,7 @@ const Viewer360 = forwardRef<
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       rendererRef.current = renderer;
 
-      // FORZAR ESTILOS DEL CANVAS
+      // Canvas styling mínimo necesario
       const canvas = renderer.domElement;
       canvas.style.position = "absolute";
       canvas.style.top = "0";
@@ -97,7 +97,7 @@ const Viewer360 = forwardRef<
       canvas.style.zIndex = "1";
       canvas.style.display = "block";
 
-      // Crear geometría del camión (plano que rotará)
+      // Crear geometría del camión
       const geometry = new THREE.PlaneGeometry(3, 2);
       const material = new THREE.MeshBasicMaterial({
         transparent: true,
@@ -108,11 +108,10 @@ const Viewer360 = forwardRef<
       scene.add(mesh);
       meshRef.current = mesh;
 
-      // IMPORTANTE: Agregar canvas al DOM
       mountRef.current.appendChild(canvas);
-      console.log("✅ Canvas added to DOM:", canvas);
+      console.log("✅ Canvas added to DOM");
 
-      // Iniciar render loop
+      // Render loop
       const animate = () => {
         animationIdRef.current = requestAnimationFrame(animate);
         renderer.render(scene, camera);
@@ -137,7 +136,6 @@ const Viewer360 = forwardRef<
               texture.magFilter = THREE.LinearFilter;
               texture.format = THREE.RGBAFormat;
 
-              // Marcar como cargada
               setLoadedTextures((prev) => {
                 const newState = [...prev];
                 newState[i] = true;
@@ -161,7 +159,6 @@ const Viewer360 = forwardRef<
         const textures = await Promise.all(loadPromises);
         texturesRef.current = textures;
 
-        // Aplicar primera textura
         if (meshRef.current && textures[0]) {
           (meshRef.current.material as THREE.MeshBasicMaterial).map =
             textures[0];
@@ -190,20 +187,20 @@ const Viewer360 = forwardRef<
         setCurrentFrame(newFrame);
 
         if (onFrameChange) {
-          onFrameChange(newFrame + 1); // +1 para índice basado en 1
+          onFrameChange(newFrame + 1);
         }
       },
       [onFrameChange]
     );
 
-    // 📡 Sincronizar con frame externo (del slider)
+    // 📡 Sincronizar con frame externo
     useEffect(() => {
       if (
         externalFrame !== undefined &&
         externalFrame !== frameRef.current + 1 &&
         !isDragging
       ) {
-        changeFrame(externalFrame - 1); // Convertir de índice 1-based a 0-based
+        changeFrame(externalFrame - 1);
       }
     }, [externalFrame, isDragging, changeFrame]);
 
@@ -227,15 +224,13 @@ const Viewer360 = forwardRef<
 
         const deltaX = mouseRef.current.x - prevMouseRef.current.x;
 
-        // Convertir movimiento horizontal a frame
-        const sensitivity = 4; // Ajustar sensibilidad
+        const sensitivity = 4;
         const frameChange = Math.floor(Math.abs(deltaX) / sensitivity);
 
         if (frameChange > 0) {
           const direction = deltaX > 0 ? 1 : -1;
           let newFrame = frameRef.current + direction * frameChange;
 
-          // Wrap around
           if (newFrame >= totalImages) newFrame = 0;
           if (newFrame < 0) newFrame = totalImages - 1;
 
@@ -272,7 +267,7 @@ const Viewer360 = forwardRef<
 
         const deltaX = mouseRef.current.x - prevMouseRef.current.x;
 
-        const sensitivity = 3; // Más sensible en móvil
+        const sensitivity = 3;
         const frameChange = Math.floor(Math.abs(deltaX) / sensitivity);
 
         if (frameChange > 0) {
@@ -316,7 +311,6 @@ const Viewer360 = forwardRef<
       return () => {
         window.removeEventListener("resize", handleResize);
 
-        // Cleanup Three.js
         if (animationIdRef.current) {
           cancelAnimationFrame(animationIdRef.current);
         }
@@ -326,7 +320,6 @@ const Viewer360 = forwardRef<
           rendererRef.current.dispose();
         }
 
-        // Dispose textures
         texturesRef.current.forEach((texture) => texture.dispose());
       };
     }, [initThreeJS, loadTextures, handleResize]);
@@ -339,17 +332,7 @@ const Viewer360 = forwardRef<
       <div className="viewer-360-component">
         <div
           ref={mountRef}
-          className="viewer-container position-relative"
-          style={{
-            width: "100%",
-            height: "600px", // Altura fija más grande
-            cursor: isDragging ? "grabbing" : "grab",
-            userSelect: "none",
-            overflow: "hidden",
-            borderRadius: "16px",
-            background: "linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)",
-            border: "1px solid rgba(255, 255, 255, 0.08)",
-          }}
+          className="viewer-container"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
@@ -358,99 +341,53 @@ const Viewer360 = forwardRef<
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          <div
-            className="viewer-image-area"
-            style={{ width: "100%", height: "100%" }}
-          >
-            {/* Loading Overlay */}
-            {isLoading ? (
-              <div
-                className="placeholder-content position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-                style={{
-                  background: "rgba(0,0,0,0.9)",
-                  zIndex: 10,
-                  borderRadius: "16px",
-                }}
-              >
-                <div className="text-center text-white">
-                  <div className="loading-indicator mb-3"></div>
-                  <h3>Loading 3D Viewer</h3>
-                  <p>Preparing {totalImages} high-resolution textures...</p>
-                  <div className="mt-3 mx-auto" style={{ width: "300px" }}>
+          {/* Loading Overlay */}
+          {isLoading ? (
+            <div className="viewer-loading-overlay">
+              <div className="loading-content">
+                <div className="loading-indicator"></div>
+                <h3>Loading 3D Viewer</h3>
+                <p>Preparing {totalImages} high-resolution textures...</p>
+                <div className="loading-progress-container">
+                  <div className="progress">
                     <div
-                      className="progress"
-                      style={{
-                        height: "4px",
-                        background: "rgba(255,255,255,0.1)",
-                      }}
-                    >
-                      <div
-                        className="progress-bar bg-primary"
-                        style={{
-                          width: `${loadingProgress}%`,
-                          transition: "width 0.3s ease",
-                        }}
-                      ></div>
-                    </div>
-                    <small className="text-secondary mt-2 d-block">
-                      {Math.round(loadingProgress)}% loaded
-                    </small>
+                      className="progress-bar"
+                      style={{ width: `${loadingProgress}%` }}
+                    ></div>
                   </div>
+                  <small className="loading-percentage">
+                    {Math.round(loadingProgress)}% loaded
+                  </small>
                 </div>
               </div>
-            ) : (
-              <>
-                {/* Frame Counter */}
-                <div
-                  className="position-absolute top-0 end-0 m-3"
-                  style={{ zIndex: 5 }}
-                >
-                  <span className="badge bg-dark bg-opacity-75 px-3 py-2 rounded-pill">
-                    <span className="text-white fw-medium">
-                      {String(currentFrame + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-secondary mx-1">/</span>
-                    <span className="text-secondary">{totalImages}</span>
-                  </span>
-                </div>
+            </div>
+          ) : (
+            <>
+              {/* Frame Counter */}
+              <div className="viewer-frame-counter">
+                <span className="frame-current">
+                  {String(currentFrame + 1).padStart(2, "0")}
+                </span>
+                <span className="frame-separator">/</span>
+                <span className="frame-total">{totalImages}</span>
+              </div>
 
-                {/* Controls */}
-                <div
-                  className="position-absolute bottom-0 start-50 translate-middle-x mb-3"
-                  style={{ zIndex: 5 }}
-                >
-                  <div className="glass-minimal rounded-pill px-4 py-2">
-                    <div className="d-flex align-items-center gap-3">
-                      <button
-                        className="btn btn-sm btn-outline-light rounded-pill px-3"
-                        onClick={() => changeFrame(0)}
-                        style={{ fontSize: "0.75rem" }}
-                      >
-                        🔄 Reset
-                      </button>
-                      <small className="text-white">
-                        Drag to rotate • 3D Control
-                      </small>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Drag Indicator */}
-                {isDragging && (
-                  <div
-                    className="position-absolute top-50 start-50 translate-middle"
-                    style={{ zIndex: 5 }}
+              {/* Controls */}
+              <div className="viewer-controls">
+                <div className="controls-container">
+                  <button
+                    className="btn btn-sm btn-outline-light rounded-pill px-3 control-reset"
+                    onClick={() => changeFrame(0)}
                   >
-                    <div className="bg-primary bg-opacity-75 rounded-pill px-3 py-2">
-                      <small className="text-white fw-medium">
-                        🔄 Rotating 3D Model...
-                      </small>
-                    </div>
-                  </div>
-                )}
-              </>
-            )}
-          </div>
+                    🔄 Reset
+                  </button>
+                  <small className="control-hint">
+                    Drag to rotate • 3D Control
+                  </small>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     );

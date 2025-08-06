@@ -1,4 +1,4 @@
-// client/src/App.tsx
+// client/src/App.tsx - ARCHIVO COMPLETO
 import React, { useState, useEffect, useRef } from "react";
 import Viewer360 from "./components/Viewer360/Viewer360";
 import VideoModal from "./components/VideoModal/VideoModal";
@@ -10,79 +10,63 @@ function App() {
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<ProductVideo | null>(null);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("overview");
 
   const viewerRef = useRef<any>(null);
-  const totalFrames = product?.totalImages || 40;
+  const totalFrames = product?.totalImages || 16;
 
-  // Cargar datos del producto (mock por ahora debido a CORS)
+  // Cargar datos del producto
   useEffect(() => {
     const loadProduct = async () => {
       try {
-        // TODO: Arreglar CORS y usar API real
-        // const products = await productApi.getAllProducts();
-        // if (products.length > 0) {
-        //   setProduct(products[0]);
-        // }
-
-        // Usar mock data actualizado
-        await new Promise((resolve) => setTimeout(resolve, 500)); // Simular delay
+        await new Promise((resolve) => setTimeout(resolve, 500));
 
         const updatedMockData = {
           ...mockProductData,
           name: "Semi Casual Truck",
           sku: "SCT-2025-001",
           description:
-            "Experience our premium truck collection with interactive 360° viewing technology. Drag to explore every angle and detail of our carefully crafted vehicles.",
+            "Complete custom transformation showcasing premium modifications and professional craftsmanship.",
           videos: [
             {
               id: "video-1",
-              title: "Video 1",
+              title: "Engine Bay Beauty",
               duration: "2:30",
               type: "demo" as const,
               videoUrl:
                 "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
               thumbnailUrl: "https://picsum.photos/400/225?random=201",
-              description: "First demonstration video",
+              description: "Check out this masterpiece under the hood",
             },
             {
               id: "video-2",
-              title: "Video 2",
+              title: "Rolling Thunder",
               duration: "3:15",
               type: "tutorial" as const,
               videoUrl:
                 "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
               thumbnailUrl: "https://picsum.photos/400/225?random=202",
-              description: "Second tutorial video",
+              description: "Listen to that custom exhaust roar",
             },
             {
               id: "video-3",
-              title: "Video 3",
+              title: "Night Prowler",
               duration: "1:45",
               type: "guide" as const,
               videoUrl:
                 "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
               thumbnailUrl: "https://picsum.photos/400/225?random=203",
-              description: "Third guide video",
+              description: "All lit up and ready to cruise",
             },
             {
               id: "video-4",
-              title: "Video 4",
+              title: "Highway Beast",
               duration: "4:20",
               type: "installation" as const,
               videoUrl:
                 "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
               thumbnailUrl: "https://picsum.photos/400/225?random=204",
-              description: "Fourth installation video",
-            },
-            {
-              id: "video-5",
-              title: "Video 5",
-              duration: "2:55",
-              type: "maintenance" as const,
-              videoUrl:
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-              thumbnailUrl: "https://picsum.photos/400/225?random=205",
-              description: "Fifth maintenance video",
+              description: "Power and performance on the open road",
             },
           ],
         };
@@ -90,7 +74,6 @@ function App() {
         setProduct(updatedMockData);
       } catch (error) {
         console.error("Error loading product:", error);
-        // Fallback a mock data si falla API
         setProduct(mockProductData);
       }
     };
@@ -112,7 +95,7 @@ function App() {
     setSelectedVideo(null);
   };
 
-  // Loading state mientras carga el producto
+  // Loading state
   if (!product) {
     return (
       <div className="d-flex align-items-center justify-content-center min-vh-100 bg-black">
@@ -134,7 +117,7 @@ function App() {
 
   return (
     <div className="App">
-      {/* 🎯 Minimal Header */}
+      {/* 🎯 Header Original */}
       <header
         className="position-fixed top-0 w-100 glass-minimal"
         style={{ zIndex: 1000 }}
@@ -143,104 +126,272 @@ function App() {
           <div className="row align-items-center">
             <div className="col-6">
               <img
-                src="https://res.cloudinary.com/dzwmrurhg/image/upload/v1754074682/logo.png"
-                alt="Company Logo"
+                src="https://res.cloudinary.com/dzwmrurhg/image/upload/v1754398358/12logo.png"
+                alt="12GA Customs Logo"
                 className="h-auto"
                 style={{
-                  maxHeight: "40px",
-                  maxWidth: "200px",
+                  maxHeight: "45px",
+                  maxWidth: "180px",
                   objectFit: "contain",
                 }}
               />
             </div>
             <div className="col-6 text-end">
-              <span className="badge bg-primary px-3 py-1 rounded-pill">
-                Demo
+              <span className="badge bg-success me-2 px-3 py-1 rounded-pill">
+                Project Complete
               </span>
+              <span className="text-white small">Client Portfolio</span>
             </div>
           </div>
         </div>
       </header>
 
-      {/* 🎨 Main Hero Layout - Apple Style */}
+      {/* 🎨 Main Layout - TU DISEÑO ORIGINAL 2-COLUMNAS */}
       <main className="hero-section">
         <div className="product-showcase">
-          {/* 📋 Product Title Section */}
-          <div className="text-center mb-5">
-            <h2 className="display-3 text-white fw-bold mb-3">
-              Semi Casual Truck
-            </h2>
-            <p
-              className="fs-4 text-secondary mb-4"
-              style={{ maxWidth: "700px", margin: "0 auto" }}
-            >
-              Experience our premium truck collection with interactive 360°
-              viewing technology. Drag to explore every angle and detail of our
-              carefully crafted vehicles.
-            </p>
-            <div className="d-flex justify-content-center gap-3">
-              <span className="badge bg-dark border-subtle px-4 py-2 rounded-pill">
-                SKU: {product.sku}
-              </span>
-              <span className="badge bg-primary px-4 py-2 rounded-pill">
-                Premium Quality
-              </span>
-            </div>
-          </div>
-
-          {/* 🖼️ 360° Viewer - Centerpiece */}
-          <div className="viewer-360-main">
-            <Viewer360
-              ref={viewerRef}
-              productId={product.id}
-              totalImages={product.totalImages}
-              currentFrame={currentFrame}
-              onFrameChange={handleFrameChange}
-            />
-          </div>
-
-          {/* 🎚️ Apple-Style Rotation Slider */}
-          <div className="rotation-control">
-            <div className="control-label">
-              <h4>Rotate to explore</h4>
-              <div className="frame-info">
-                Frame {currentFrame} of {totalFrames}
-              </div>
-            </div>
-
-            <div className="slider-wrapper">
-              <div className="slider-track">
-                <div
-                  className="slider-progress"
-                  style={{ width: `${progressPercentage}%` }}
-                ></div>
-              </div>
-
-              <input
-                type="range"
-                min="1"
-                max={totalFrames}
-                value={currentFrame}
-                onChange={handleSliderChange}
-                className="slider-input"
+          <div className="product-main-layout">
+            {/* 🖼️ IZQUIERDA - Visor 360° + Slider */}
+            <div className="viewer-main-area">
+              <Viewer360
+                ref={viewerRef}
+                productId={product.id}
+                totalImages={product.totalImages}
+                currentFrame={currentFrame}
+                onFrameChange={handleFrameChange}
               />
 
-              <div
-                className="slider-thumb-visual"
-                style={{ left: `${progressPercentage}%` }}
-              ></div>
+              {/* 🎚️ Rotation Slider - TU ESTILO ORIGINAL */}
+              <div className="rotation-control">
+                <div className="control-label">
+                  <h4>Rotate to explore</h4>
+                </div>
+
+                <div className="slider-wrapper">
+                  <div className="slider-track">
+                    <div
+                      className="slider-progress"
+                      style={{ width: `${progressPercentage}%` }}
+                    ></div>
+                  </div>
+
+                  <input
+                    type="range"
+                    min="1"
+                    max={totalFrames}
+                    value={currentFrame}
+                    onChange={handleSliderChange}
+                    className="slider-input"
+                  />
+
+                  <div
+                    className="slider-thumb-visual"
+                    style={{ left: `${progressPercentage}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            {/* 📋 DERECHA - Info Panel TU DISEÑO ORIGINAL */}
+            <div className="product-info-panel">
+              {/* 📋 Product Header */}
+              <div className="product-header">
+                <span className="status-badge">Custom Build Complete</span>
+
+                <h1 className="product-title">Semi Casual Truck</h1>
+
+                <p className="product-description">
+                  Complete custom transformation showcasing premium
+                  modifications and professional craftsmanship.
+                </p>
+
+                {/* 👤 Client Info */}
+                <div className="client-info">
+                  <div className="client-avatar">AT</div>
+                  <div className="client-details">
+                    <div className="client-name">ABC Transport Solutions</div>
+                    <div className="project-date">January 2025</div>
+                  </div>
+                  <div className="status-indicator">Active</div>
+                </div>
+              </div>
+
+              {/* 🎯 Navigation Tabs - TU DISEÑO ORIGINAL */}
+              <ul className="nav nav-tabs nav-tabs-custom">
+                <li className="nav-item">
+                  <button
+                    className={`nav-link ${
+                      activeTab === "overview" ? "active" : ""
+                    }`}
+                    onClick={() => setActiveTab("overview")}
+                  >
+                    Overview
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button
+                    className={`nav-link ${
+                      activeTab === "installed" ? "active" : ""
+                    }`}
+                    onClick={() => setActiveTab("installed")}
+                  >
+                    Installed
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <button
+                    className={`nav-link ${
+                      activeTab === "videos" ? "active" : ""
+                    }`}
+                    onClick={() => setActiveTab("videos")}
+                  >
+                    Videos
+                  </button>
+                </li>
+              </ul>
+
+              {/* 📄 Tab Content */}
+              <div className="tab-content">
+                {/* 📊 Overview Tab */}
+                {activeTab === "overview" && (
+                  <div className="tab-pane overview-content">
+                    <div className="stats-grid">
+                      <div className="stat-item">
+                        <span className="stat-number">5</span>
+                        <span className="stat-label">Modifications</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-number">4</span>
+                        <span className="stat-label">Videos</span>
+                      </div>
+                    </div>
+
+                    <div className="description">
+                      This is my pride and joy - a completely custom truck build
+                      showcasing premium modifications and professional
+                      craftsmanship. Every detail has been carefully planned and
+                      executed to perfection.
+                    </div>
+
+                    <div className="project-details">
+                      <div className="d-flex justify-content-between mb-2">
+                        <span className="text-secondary">Build Type:</span>
+                        <span className="text-white fw-medium">
+                          Complete Custom
+                        </span>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <span className="text-secondary">Status:</span>
+                        <span className="text-success fw-medium">
+                          Delivered
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* 🔧 Installed Tab */}
+                {activeTab === "installed" && (
+                  <div className="tab-pane installed-content">
+                    <div className="modification-list">
+                      <div className="modification-item">
+                        <div className="modification-info">
+                          <div className="modification-name">
+                            Custom Round Grille
+                          </div>
+                          <div className="modification-details">
+                            Premium airflow design
+                          </div>
+                        </div>
+                        <div className="status-badge">✓ Installed</div>
+                      </div>
+
+                      <div className="modification-item">
+                        <div className="modification-info">
+                          <div className="modification-name">LED Light Bar</div>
+                          <div className="modification-details">
+                            High-performance lighting
+                          </div>
+                        </div>
+                        <div className="status-badge">✓ Installed</div>
+                      </div>
+
+                      <div className="modification-item">
+                        <div className="modification-info">
+                          <div className="modification-name">Custom Bumper</div>
+                          <div className="modification-details">
+                            Heavy-duty protection
+                          </div>
+                        </div>
+                        <div className="status-badge">✓ Installed</div>
+                      </div>
+
+                      <div className="modification-item">
+                        <div className="modification-info">
+                          <div className="modification-name">
+                            Chrome Accents
+                          </div>
+                          <div className="modification-details">
+                            Premium finish details
+                          </div>
+                        </div>
+                        <div className="status-badge">✓ Installed</div>
+                      </div>
+
+                      <div className="modification-item">
+                        <div className="modification-info">
+                          <div className="modification-name">
+                            Performance Exhaust
+                          </div>
+                          <div className="modification-details">
+                            Enhanced sound & performance
+                          </div>
+                        </div>
+                        <div className="status-badge">✓ Installed</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* 🎬 Videos Tab */}
+                {activeTab === "videos" && (
+                  <div className="tab-pane videos-content">
+                    <div className="video-list-compact">
+                      {product.videos.map((video) => (
+                        <div
+                          key={video.id}
+                          className="video-item-compact"
+                          onClick={() => handleVideoSelect(video)}
+                        >
+                          <div className="video-thumbnail-small">
+                            <span className="video-icon-small">🎬</span>
+                          </div>
+                          <div className="video-details-compact">
+                            <div className="video-title-compact">
+                              {video.title}
+                            </div>
+                            <div className="video-duration-compact">
+                              {video.duration}
+                            </div>
+                          </div>
+                          <div className="play-indicator">▶️</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* 🎬 Video Gallery con 5 videos */}
+          {/* 🎬 VIDEO GALLERY - ABAJO DEL LAYOUT */}
           <div className="video-section">
             <div className="section-title">
-              <h3>Learn more</h3>
-              <p>Comprehensive guides and demonstrations</p>
+              <h3>My Custom Truck</h3>
+              <p>Check out these awesome shots of my ride</p>
             </div>
 
-            <div className="video-grid">
-              {product.videos.map((video, index) => (
+            <div className={`video-grid videos-${product.videos.length}`}>
+              {product.videos.map((video) => (
                 <div
                   key={video.id}
                   className="video-card"
@@ -256,9 +407,7 @@ function App() {
 
                   <div className="video-info">
                     <h6 className="video-title">{video.title}</h6>
-                    <div className="video-meta d-flex justify-content-between align-items-center">
-                      <span className="video-duration">{video.duration}</span>
-                    </div>
+                    <div className="video-duration">{video.duration}</div>
                   </div>
                 </div>
               ))}
@@ -274,12 +423,13 @@ function App() {
         onClose={handleCloseVideoModal}
       />
 
-      {/* 🦶 Minimal Footer */}
+      {/* 🦶 Footer */}
       <footer className="border-top border-subtle py-4 mt-6">
         <div className="container-fluid">
           <div className="text-center">
             <p className="text-secondary small mb-0">
-              © 2025 Semi Casual Truck Platform. Built for modern visualization.
+              © 2025 12GA Customs. Professional truck customization and
+              modifications.
             </p>
           </div>
         </div>

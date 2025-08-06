@@ -135,9 +135,9 @@ export const mockProductData: Product = {
   sku: "12GA-GRL-R001",
   description:
     "Classic round openings for traditional styling and optimal airflow. Perfect for operators who prefer timeless design.",
-  totalImages: 40,
+  totalImages: 16,
   images360: Array.from(
-    { length: 40 },
+    { length: 16 },
     (_, i) => `https://picsum.photos/800/600?random=${i + 1}`
   ),
   videos: [

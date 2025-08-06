@@ -1,12 +1,12 @@
-// client/src/styles/main.scss - OPTIMIZADO
+// client/src/styles/main.scss - TU DISEÑO ORIGINAL RESTAURADO
 
-// 🎨 IMPORTAR VARIABLES CUSTOM PRIMERO
+// 🎨 IMPORTAR VARIABLES CUSTOM
 @import "variables";
 
-// 📦 IMPORTAR BOOTSTRAP CON NUESTRAS VARIABLES
+// 📦 IMPORTAR BOOTSTRAP
 @import "~bootstrap/scss/bootstrap";
 
-// 🌍 MODERN FOUNDATION
+// 🌍 FOUNDATION
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
@@ -48,289 +48,219 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
-// 🎨 LAYOUT PRINCIPAL - FULL RESPONSIVE
+// 🎨 LAYOUT PRINCIPAL - TU DISEÑO 2-COLUMNAS
 .hero-section {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 6rem 0 4rem;
-
-  @media (max-width: 1200px) {
-    padding: 5rem 0 3rem;
-  }
+  padding: 5rem 0 3rem;
+  background: $black;
 
   @media (max-width: 768px) {
     padding: 4rem 0 2rem;
     min-height: auto;
-  }
-
-  @media (max-width: 480px) {
-    padding: 3rem 0 1rem;
   }
 }
 
 .product-showcase {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
-
-  @media (max-width: 1200px) {
-    max-width: 1200px;
-    padding: 0 1.5rem;
-  }
+  padding: 0 1.5rem;
 
   @media (max-width: 768px) {
     padding: 0 1rem;
   }
+}
 
-  @media (max-width: 480px) {
-    padding: 0 0.75rem;
+.product-main-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3rem;
+  align-items: start;
+  margin-bottom: 3rem;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr 0.9fr;
+    gap: 2rem;
+  }
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    gap: 1.5rem;
   }
 }
 
-// 🖼️ THREE.JS VIEWER PRINCIPAL
-.viewer-360-main {
-  position: relative;
-  margin-bottom: 4rem;
-
+// 🖼️ VISOR 360° - MISMO GRIS QUE EL PANEL
+.viewer-main-area {
   .viewer-container {
     position: relative;
-    max-width: 1000px;
-    margin: 0 auto;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-    border-radius: 20px;
+    background: rgba(17, 24, 39, 0.98) !important; // MISMO GRIS QUE EL PANEL
+    border-radius: 16px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    height: 600px;
+    width: 100%;
 
     &:hover {
       border-color: rgba(220, 38, 38, 0.3);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
       transition: all 0.3s ease;
     }
 
-    .viewer-image-area {
-      position: relative;
-      height: 650px; // Altura fija grande
-      background: linear-gradient(135deg, #0f0f0f 0%, #1f1f1f 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 20px;
-      overflow: hidden;
+    canvas {
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      z-index: 1 !important;
+      border-radius: inherit;
+      background: rgba(17, 24, 39, 0.98) !important; // MISMO GRIS QUE EL PANEL
+    }
 
-      // THREE.JS CANVAS OPTIMIZATION
-      canvas {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        z-index: 1 !important;
-        border-radius: inherit;
+    // ICONO 360° - TU IMAGEN DE CLOUDINARY
+    .icon-360-hint {
+      animation: iconFloat 3s ease-in-out infinite;
+      transition: all 0.4s ease;
+
+      .icon-360-image {
+        width: 120px;
+        height: 120px;
+        object-fit: contain;
+        opacity: 0.8;
+        filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
+        transition: all 0.3s ease;
       }
+    }
 
-      // LOADING STATE
-      .placeholder-content {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        background: rgba(0, 0, 0, 0.95) !important;
-        z-index: 20 !important;
-        border-radius: inherit;
-        text-align: center;
+    // ROTATING INDICATOR MODERNO - SIN EMOTICON
+    .rotating-indicator-modern {
+      .rotating-content {
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(20px);
+        border-radius: 50px;
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 
-        .loading-indicator {
-          width: 50px;
-          height: 50px;
-          border: 3px solid rgba(255, 255, 255, 0.1);
-          border-top: 3px solid $primary;
+        .rotation-circle {
+          width: 24px;
+          height: 24px;
+          border: 2px solid rgba(255, 255, 255, 0.2);
+          border-top: 2px solid $primary;
           border-radius: 50%;
-          animation: spin 1s linear infinite;
-          margin: 0 auto 2rem;
+          animation: rotationSpin 1s linear infinite;
         }
 
-        h3 {
+        .rotating-text {
           color: $white;
-          font-size: 1.75rem;
-          font-weight: $font-weight-semibold;
-          margin-bottom: 0.75rem;
-        }
-
-        p {
-          color: $gray-500;
-          font-size: 1.125rem;
-          margin-bottom: 2rem;
-          max-width: 400px;
-        }
-
-        .progress {
-          width: 350px;
-          height: 6px;
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 3px;
-          overflow: hidden;
-          margin: 0 auto;
-
-          .progress-bar {
-            height: 100%;
-            background: linear-gradient(
-              90deg,
-              $primary 0%,
-              $primary-light 100%
-            );
-            border-radius: inherit;
-            transition: width 0.3s ease;
-          }
-        }
-      }
-
-      // CONTROLES SUPERPUESTOS
-      .position-absolute {
-        z-index: 10 !important;
-
-        &.top-0.end-0 {
-          // Frame counter
-          .badge {
-            background: rgba(0, 0, 0, 0.8) !important;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            padding: 0.6rem 1rem;
-          }
-        }
-
-        &.bottom-0 {
-          // Control buttons
-          .glass-minimal {
-            background: rgba(0, 0, 0, 0.8) !important;
-
-            .btn {
-              border: 1px solid rgba(255, 255, 255, 0.2);
-              transition: all 0.3s ease;
-
-              &:hover {
-                background: rgba(220, 38, 38, 0.2);
-                border-color: rgba(220, 38, 38, 0.5);
-                transform: translateY(-1px);
-              }
-            }
-          }
-        }
-
-        &.top-50 {
-          // Drag indicator
-          .bg-primary {
-            background: linear-gradient(
-              45deg,
-              $primary 0%,
-              $primary-light 100%
-            ) !important;
-            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
-          }
+          font-weight: $font-weight-medium;
+          font-size: 0.95rem;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
         }
       }
     }
 
-    // RESPONSIVE HEIGHTS - MOBILE FIRST
-    @media (max-width: 1400px) {
-      .viewer-image-area {
-        height: 600px;
+    // LOADING CON FONDO GRIS
+    .placeholder-content {
+      background: rgba(17, 24, 39, 0.98) !important;
+
+      .text-center {
+        color: $white !important;
+
+        h3 {
+          color: $white !important;
+        }
+
+        p {
+          color: $gray-400 !important;
+        }
+      }
+
+      .loading-indicator {
+        border: 3px solid rgba(255, 255, 255, 0.1);
+        border-top: 3px solid $primary;
+      }
+
+      .progress {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .text-muted {
+        color: $gray-400 !important;
       }
     }
 
     @media (max-width: 1200px) {
-      .viewer-image-area {
-        height: 550px;
-      }
-    }
+      height: 500px;
 
-    @media (max-width: 992px) {
-      .viewer-image-area {
-        height: 500px;
+      .icon-360-hint .icon-360-image {
+        width: 100px;
+        height: 100px;
       }
     }
 
     @media (max-width: 768px) {
-      border-radius: 16px;
-      margin: 0 0.5rem;
+      height: 400px;
+      border-radius: 12px;
 
-      .viewer-image-area {
-        height: 400px;
-        border-radius: 16px;
+      .icon-360-hint .icon-360-image {
+        width: 80px;
+        height: 80px;
       }
     }
 
     @media (max-width: 576px) {
-      border-radius: 12px;
-      margin: 0;
+      height: 320px;
 
-      .viewer-image-area {
-        height: 350px;
-        border-radius: 12px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .viewer-image-area {
-        height: 300px;
-      }
-    }
-
-    @media (max-width: 360px) {
-      .viewer-image-area {
-        height: 250px;
+      .icon-360-hint .icon-360-image {
+        width: 70px;
+        height: 70px;
       }
     }
   }
 }
 
-// 🎚️ ENHANCED ROTATION SLIDER - FULL RESPONSIVE
+// 🎚️ ROTATION SLIDER - TU ESTILO ORIGINAL
 .rotation-control {
-  position: relative;
-  max-width: 700px;
-  margin: 4rem auto;
-  padding: 0 2rem;
-  z-index: 15;
+  margin-top: 1.5rem;
+  padding: 0;
 
   .control-label {
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
 
     h4 {
       color: $white;
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       font-weight: $font-weight-semibold;
-      margin-bottom: 0.75rem;
-      letter-spacing: -0.025em;
-    }
-
-    .frame-info {
-      color: $gray-400;
-      font-size: 1rem;
-      font-weight: $font-weight-normal;
+      margin-bottom: 0;
     }
   }
 
   .slider-wrapper {
     position: relative;
-    height: 50px;
+    height: 35px;
     display: flex;
     align-items: center;
-    padding: 0 1rem;
+    max-width: 500px;
+    margin: 0 auto;
 
     .slider-track {
       position: absolute;
-      left: 1rem;
-      right: 1rem;
-      height: 6px;
+      left: 0;
+      right: 0;
+      height: 3px;
       background: rgba(255, 255, 255, 0.1);
-      border-radius: 3px;
+      border-radius: 2px;
       overflow: hidden;
 
       .slider-progress {
@@ -338,7 +268,6 @@ body {
         background: linear-gradient(90deg, $primary 0%, $primary-light 100%);
         border-radius: inherit;
         transition: width 0.2s ease;
-        width: 0%;
       }
     }
 
@@ -356,157 +285,333 @@ body {
 
       &::-webkit-slider-thumb {
         appearance: none;
-        width: 24px;
-        height: 24px;
+        width: 18px;
+        height: 18px;
         border-radius: 50%;
         background: $white;
         cursor: pointer;
-        border: 3px solid $black;
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4),
-          0 0 0 1px rgba(255, 255, 255, 0.1);
+        border: 2px solid $black;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         transition: all 0.3s ease;
 
         &:hover {
-          transform: scale(1.2);
-          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5),
-            0 0 0 3px rgba(220, 38, 38, 0.4);
-        }
-
-        &:active {
           transform: scale(1.1);
+          box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
         }
-      }
-
-      &::-moz-range-thumb {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: $white;
-        cursor: pointer;
-        border: 3px solid $black;
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
       }
     }
 
     .slider-thumb-visual {
       position: absolute;
-      width: 24px;
-      height: 24px;
+      width: 18px;
+      height: 18px;
       background: $white;
       border-radius: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
       pointer-events: none;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       transition: all 0.3s ease;
       z-index: 2;
-      border: 3px solid $black;
-    }
-  }
-
-  // RESPONSIVE BREAKPOINTS
-  @media (max-width: 1200px) {
-    max-width: 600px;
-    margin: 3.5rem auto;
-  }
-
-  @media (max-width: 768px) {
-    padding: 0 1rem;
-    margin: 3rem auto;
-    max-width: 500px;
-
-    .control-label {
-      margin-bottom: 2rem;
-
-      h4 {
-        font-size: 1.25rem;
-      }
-
-      .frame-info {
-        font-size: 0.9rem;
-      }
-    }
-
-    .slider-wrapper {
-      height: 44px;
-      padding: 0 0.75rem;
-
-      .slider-track {
-        left: 0.75rem;
-        right: 0.75rem;
-        height: 5px;
-      }
-
-      .slider-input::-webkit-slider-thumb {
-        width: 20px;
-        height: 20px;
-      }
-
-      .slider-thumb-visual {
-        width: 20px;
-        height: 20px;
-      }
-    }
-  }
-
-  @media (max-width: 576px) {
-    padding: 0 0.5rem;
-    margin: 2.5rem auto;
-
-    .control-label h4 {
-      font-size: 1.125rem;
-    }
-
-    .slider-wrapper {
-      height: 40px;
-      padding: 0 0.5rem;
-
-      .slider-track {
-        left: 0.5rem;
-        right: 0.5rem;
-        height: 4px;
-      }
-
-      .slider-input::-webkit-slider-thumb {
-        width: 18px;
-        height: 18px;
-      }
-
-      .slider-thumb-visual {
-        width: 18px;
-        height: 18px;
-      }
-    }
-  }
-
-  @media (max-width: 480px) {
-    .control-label h4 {
-      font-size: 1rem;
+      border: 2px solid $black;
     }
   }
 }
 
-// 🎬 ENHANCED VIDEO GALLERY - FULL RESPONSIVE
+// 📋 INFO PANEL - TU DISEÑO ORIGINAL
+.product-info-panel {
+  background: rgba(17, 24, 39, 0.98);
+  backdrop-filter: blur(25px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  height: fit-content;
+
+  .product-header {
+    padding: 2rem 2rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    .status-badge {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: $font-weight-medium;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .product-title {
+      color: $white;
+      font-size: 1.8rem;
+      font-weight: $font-weight-bold;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .product-description {
+      color: $gray-300;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+
+    .client-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+
+      .client-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        font-size: 1.1rem;
+      }
+
+      .client-details {
+        .client-name {
+          color: $white;
+          font-weight: $font-weight-semibold;
+          margin-bottom: 0.2rem;
+          font-size: 0.95rem;
+        }
+
+        .project-date {
+          color: $gray-400;
+          font-size: 0.85rem;
+        }
+      }
+
+      .status-indicator {
+        margin-left: auto;
+        padding: 0.3rem 0.8rem;
+        background: rgba(34, 197, 94, 0.2);
+        color: #22c55e;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
+
+  // NAVIGATION TABS - TU ESTILO ORIGINAL
+  .nav-tabs-custom {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0 2rem;
+    background: rgba(0, 0, 0, 0.2);
+
+    .nav-link {
+      color: $gray-400;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      font-weight: $font-weight-medium;
+      font-size: 0.85rem;
+      border-radius: 0;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+
+      &:hover {
+        color: $white;
+        border-bottom-color: rgba(220, 38, 38, 0.5);
+        background: rgba(220, 38, 38, 0.05);
+      }
+
+      &.active {
+        color: $primary;
+        border-bottom-color: $primary;
+        background: rgba(220, 38, 38, 0.08);
+      }
+    }
+  }
+
+  .tab-content {
+    padding: 1.5rem 2rem 2rem;
+
+    .tab-pane {
+      min-height: 250px;
+    }
+  }
+}
+
+// 📊 TAB CONTENT - TU ESTILO ORIGINAL
+.overview-content {
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    .stat-item {
+      text-align: center;
+      padding: 1.2rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+
+      .stat-number {
+        color: $primary;
+        font-size: 1.75rem;
+        font-weight: $font-weight-bold;
+        display: block;
+        line-height: 1;
+      }
+
+      .stat-label {
+        color: $gray-400;
+        font-size: 0.8rem;
+        margin-top: 0.4rem;
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
+
+  .description {
+    color: $gray-300;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-details {
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.9rem;
+  }
+}
+
+.installed-content {
+  .modification-list {
+    .modification-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.875rem;
+      margin-bottom: 0.6rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      border: 1px solid rgba(34, 197, 94, 0.15);
+
+      .modification-info {
+        .modification-name {
+          color: $white;
+          font-weight: $font-weight-medium;
+          margin-bottom: 0.2rem;
+          font-size: 0.9rem;
+        }
+
+        .modification-details {
+          color: $gray-400;
+          font-size: 0.8rem;
+        }
+      }
+
+      .status-badge {
+        background: rgba(34, 197, 94, 0.2);
+        color: #22c55e;
+        padding: 0.2rem 0.6rem;
+        border-radius: 15px;
+        font-size: 0.7rem;
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
+}
+
+// 🎬 VIDEOS TAB - LISTA COMPACTA
+.videos-content {
+  .video-list-compact {
+    .video-item-compact {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: rgba(220, 38, 38, 0.3);
+        background: rgba(220, 38, 38, 0.05);
+      }
+
+      .video-thumbnail-small {
+        width: 60px;
+        height: 40px;
+        background: $gray-800;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        .video-icon-small {
+          font-size: 1.2rem;
+        }
+      }
+
+      .video-details-compact {
+        flex-grow: 1;
+
+        .video-title-compact {
+          color: $white;
+          font-size: 0.9rem;
+          font-weight: $font-weight-medium;
+          margin-bottom: 0.2rem;
+        }
+
+        .video-duration-compact {
+          color: $gray-400;
+          font-size: 0.8rem;
+        }
+      }
+
+      .play-indicator {
+        color: $primary;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+// 🎬 VIDEO GALLERY - ABAJO DEL LAYOUT
 .video-section {
-  margin-top: 6rem;
+  margin-top: 0;
   padding: 4rem 0;
 
   .section-title {
     text-align: center;
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
 
     h3 {
       color: $white;
-      font-size: 2.5rem;
+      font-size: 2.25rem;
       font-weight: $font-weight-bold;
       margin-bottom: 1rem;
-      letter-spacing: -0.025em;
+
+      @media (max-width: 768px) {
+        font-size: 2rem;
+      }
     }
 
     p {
       color: $gray-400;
-      font-size: 1.25rem;
+      font-size: 1.125rem;
       margin: 0;
       max-width: 600px;
       margin: 0 auto;
@@ -515,11 +620,42 @@ body {
 
   .video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
+
+    // Responsive grid basado en número de videos
+    &.videos-1 {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+    }
+    &.videos-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    &.videos-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    &.videos-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 992px) {
+      &.videos-3,
+      &.videos-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr !important;
+      max-width: 350px;
+    }
   }
 
   .video-card {
@@ -542,12 +678,12 @@ body {
       }
 
       .play-button {
-        transform: scale(1.15);
+        transform: scale(1.1);
       }
 
       .video-icon {
         filter: none;
-        transform: scale(1.1);
+        transform: scale(1.05);
       }
     }
 
@@ -560,9 +696,9 @@ body {
       justify-content: center;
 
       .video-icon {
-        font-size: 4rem;
+        font-size: 2.5rem;
         filter: grayscale(1) brightness(0.6);
-        transition: all 0.4s ease;
+        transition: all 0.3s ease;
       }
     }
 
@@ -581,27 +717,27 @@ body {
       align-items: center;
       justify-content: center;
       opacity: 0;
-      transition: all 0.4s ease;
+      transition: all 0.3s ease;
 
       .play-button {
-        width: 70px;
-        height: 70px;
-        background: linear-gradient(135deg, $white 0%, #f8f9fa 100%);
+        width: 60px;
+        height: 60px;
+        background: $white;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.3s ease;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 
         &::before {
           content: "";
           width: 0;
           height: 0;
-          border-left: 18px solid $black;
-          border-top: 12px solid transparent;
-          border-bottom: 12px solid transparent;
-          margin-left: 6px;
+          border-left: 16px solid $black;
+          border-top: 10px solid transparent;
+          border-bottom: 10px solid transparent;
+          margin-left: 3px;
         }
       }
     }
@@ -611,196 +747,83 @@ body {
 
       .video-title {
         color: $white;
-        font-size: 1.125rem;
+        font-size: 1.1rem;
         font-weight: $font-weight-semibold;
         margin-bottom: 0.5rem;
-        line-height: 1.4;
+        line-height: 1.3;
       }
 
-      .video-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .video-duration {
-          color: $gray-400;
-          font-size: 0.9rem;
-          font-weight: $font-weight-normal;
-        }
-
-        .video-type {
-          color: $primary;
-          font-size: 0.8rem;
-          font-weight: $font-weight-bold;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          padding: 0.25rem 0.75rem;
-          background: rgba(220, 38, 38, 0.1);
-          border-radius: 20px;
-          border: 1px solid rgba(220, 38, 38, 0.2);
-        }
-      }
-    }
-  }
-
-  // RESPONSIVE BREAKPOINTS
-  @media (max-width: 1400px) {
-    .video-grid {
-      max-width: 1200px;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
-  }
-
-  @media (max-width: 1200px) {
-    margin-top: 5rem;
-    padding: 3rem 0;
-
-    .video-grid {
-      max-width: 1000px;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .section-title h3 {
-      font-size: 2.25rem;
-    }
-  }
-
-  @media (max-width: 992px) {
-    .video-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    margin-top: 4rem;
-    padding: 2rem 0;
-
-    .section-title {
-      margin-bottom: 3rem;
-
-      h3 {
-        font-size: 2rem;
-      }
-
-      p {
-        font-size: 1.125rem;
-        padding: 0 1rem;
-      }
-    }
-
-    .video-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      padding: 0 0.5rem;
-    }
-
-    .video-card {
-      border-radius: 12px;
-
-      .video-thumbnail .video-icon {
-        font-size: 3rem;
-      }
-
-      .video-overlay .play-button {
-        width: 60px;
-        height: 60px;
-
-        &::before {
-          border-left: 16px solid $black;
-          border-top: 10px solid transparent;
-          border-bottom: 10px solid transparent;
-          margin-left: 5px;
-        }
-      }
-
-      .video-info {
-        padding: 1.25rem;
-
-        .video-title {
-          font-size: 1rem;
-        }
-
-        .video-meta .video-duration {
-          font-size: 0.85rem;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 576px) {
-    .video-grid {
-      grid-template-columns: 1fr;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-
-    .video-card {
-      max-width: 100%;
-    }
-  }
-
-  @media (max-width: 480px) {
-    margin-top: 3rem;
-
-    .section-title {
-      margin-bottom: 2rem;
-
-      h3 {
-        font-size: 1.75rem;
-      }
-
-      p {
-        font-size: 1rem;
-      }
-    }
-
-    .video-grid {
-      padding: 0;
-    }
-
-    .video-card {
-      .video-thumbnail .video-icon {
-        font-size: 2.5rem;
-      }
-
-      .video-overlay .play-button {
-        width: 50px;
-        height: 50px;
-
-        &::before {
-          border-left: 14px solid $black;
-          border-top: 8px solid transparent;
-          border-bottom: 8px solid transparent;
-          margin-left: 4px;
-        }
-      }
-
-      .video-info {
-        padding: 1rem;
-
-        .video-title {
-          font-size: 0.95rem;
-        }
+      .video-duration {
+        color: $gray-400;
+        font-size: 0.9rem;
       }
     }
   }
 }
 
-// 🔄 ANIMATIONS
+// 🔄 ANIMATIONS MODERNAS Y ELEGANTES
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-// 🎨 ENHANCED BUTTONS - FULL RESPONSIVE
+@keyframes rotationSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes iconFloat {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1) translateY(0px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-5px);
+  }
+}
+
+@keyframes arrowPulseLeft {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: rotate(-45deg) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(-45deg) scale(1.1) translateX(-2px);
+  }
+}
+
+@keyframes arrowPulseRight {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: rotate(135deg) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(135deg) scale(1.1) translateX(2px);
+  }
+}
+
+.loading-indicator {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top: 3px solid $primary;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+// 🎨 BUTTONS
 .btn {
   transition: all 0.3s ease;
   font-weight: $font-weight-medium;
   border-radius: 25px;
-  letter-spacing: 0.025em;
 
   &.btn-primary {
     background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
@@ -808,13 +831,8 @@ body {
     box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
 
     &:hover {
-      background: linear-gradient(135deg, $primary-light 0%, $primary 100%);
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
-    }
-
-    &:active {
-      transform: translateY(0);
     }
   }
 
@@ -828,26 +846,9 @@ body {
       color: $white;
     }
   }
-
-  // RESPONSIVE BUTTON SIZES
-  @media (max-width: 768px) {
-    &.btn-sm {
-      padding: 0.375rem 0.75rem;
-      font-size: 0.7rem;
-    }
-  }
-
-  @media (max-width: 480px) {
-    border-radius: 20px;
-
-    &.btn-sm {
-      padding: 0.25rem 0.5rem;
-      font-size: 0.65rem;
-    }
-  }
 }
 
-// 🔤 ENHANCED TYPOGRAPHY - RESPONSIVE
+// 🔤 TYPOGRAPHY
 h1,
 h2,
 h3,
@@ -856,178 +857,51 @@ h5,
 h6 {
   font-weight: $font-weight-semibold;
   line-height: 1.2;
-  letter-spacing: -0.025em;
 }
 
-.display-1,
-.display-2,
-.display-3,
-.display-4 {
-  font-weight: $font-weight-bold;
-  line-height: 1.1;
-  letter-spacing: -0.05em;
-
-  @media (max-width: 768px) {
-    font-size: calc(1.375rem + 1.5vw);
-  }
-
-  @media (max-width: 480px) {
-    font-size: calc(1.2rem + 1.2vw);
+// 📱 RESPONSIVE
+@media (max-width: 992px) {
+  .product-main-layout {
+    .product-info-panel {
+      position: relative;
+      top: 0;
+    }
   }
 }
 
-// RESPONSIVE TEXT SIZES
 @media (max-width: 768px) {
-  .fs-4 {
-    font-size: 1.125rem !important;
+  .product-showcase {
+    padding: 0 1rem;
   }
 
-  .fs-5 {
-    font-size: 1rem !important;
-  }
-}
+  .product-info-panel {
+    margin-top: 2rem;
+    border-radius: 16px;
 
-@media (max-width: 480px) {
-  .fs-4 {
-    font-size: 1rem !important;
-  }
-}
+    .product-header {
+      padding: 1.5rem;
 
-// 🎪 ENHANCED SHADOWS
-.shadow-minimal {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-.shadow-soft {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-.shadow-medium {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-}
-.shadow-large {
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-}
-
-// 🚀 PERFORMANCE OPTIMIZATIONS + RESPONSIVE UTILITIES
-* {
-  will-change: auto;
-}
-
-.viewer-container {
-  contain: layout style paint;
-}
-
-canvas {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-}
-
-// 📱 RESPONSIVE SPACING UTILITIES
-@media (max-width: 768px) {
-  .mt-6 {
-    margin-top: 3rem !important;
-  }
-  .mb-6 {
-    margin-bottom: 3rem !important;
-  }
-  .py-6 {
-    padding-top: 3rem !important;
-    padding-bottom: 3rem !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .mt-6 {
-    margin-top: 2rem !important;
-  }
-  .mb-6 {
-    margin-bottom: 2rem !important;
-  }
-  .py-6 {
-    padding-top: 2rem !important;
-    padding-bottom: 2rem !important;
-  }
-}
-
-// 🎯 RESPONSIVE BADGE SIZES
-.badge {
-  @media (max-width: 768px) {
-    font-size: 0.7rem;
-    padding: 0.4rem 0.8rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 0.65rem;
-    padding: 0.3rem 0.6rem;
-  }
-}
-
-// 📊 RESPONSIVE TECHNICAL SPECS
-@media (max-width: 768px) {
-  .row.g-4 {
-    --bs-gutter-x: 1rem;
-    --bs-gutter-y: 1rem;
-  }
-
-  .col-6.col-md-3 {
-    font-size: 0.9rem;
-
-    .fs-4 {
-      font-size: 2rem !important;
+      .product-title {
+        font-size: 1.6rem;
+      }
     }
 
-    h6 {
-      font-size: 0.9rem;
-      margin-bottom: 0.25rem;
+    .tab-content {
+      padding: 1.5rem;
     }
 
-    .small {
-      font-size: 0.8rem !important;
-    }
-  }
-}
+    .nav-tabs-custom {
+      padding: 0 1.5rem;
 
-@media (max-width: 480px) {
-  .col-6.col-md-3 {
-    .fs-4 {
-      font-size: 1.5rem !important;
-    }
-
-    h6 {
-      font-size: 0.8rem;
-    }
-
-    .small {
-      font-size: 0.75rem !important;
-    }
-  }
-}
-
-// 🎮 RESPONSIVE CONTROLS
-.glass-minimal {
-  @media (max-width: 768px) {
-    padding: 0.75rem 1rem;
-
-    .d-flex.align-items-center.gap-3 {
-      gap: 1rem !important;
-    }
-
-    small {
-      font-size: 0.8rem;
+      .nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+      }
     }
   }
 
-  @media (max-width: 480px) {
-    padding: 0.5rem 0.75rem;
-
-    .d-flex.align-items-center.gap-3 {
-      gap: 0.75rem !important;
-      flex-direction: column;
-      text-align: center;
-    }
-
-    small {
-      font-size: 0.7rem;
-      margin-top: 0.25rem;
-    }
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
   }
 }
