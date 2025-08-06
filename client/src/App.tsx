@@ -10,7 +10,10 @@ function App() {
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<ProductVideo | null>(null);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState("360");
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const itemsPerPage = 3; // Mostrar 3 videos por página
+  const totalSlides = Math.ceil((product?.videos.length || 0) / itemsPerPage);
 
   const viewerRef = useRef<any>(null);
   const totalFrames = product?.totalImages || 16;
@@ -34,8 +37,9 @@ function App() {
               duration: "2:30",
               type: "demo" as const,
               videoUrl:
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-              thumbnailUrl: "https://picsum.photos/400/225?random=201",
+                "https://res.cloudinary.com/dzwmrurhg/video/upload/v1754496965/video1.mp4",
+              thumbnailUrl:
+                "https://res.cloudinary.com/dzwmrurhg/image/upload/v1754496797/thumbnail-1.png",
               description: "Check out this masterpiece under the hood",
             },
             {
@@ -44,8 +48,9 @@ function App() {
               duration: "3:15",
               type: "tutorial" as const,
               videoUrl:
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-              thumbnailUrl: "https://picsum.photos/400/225?random=202",
+                "https://res.cloudinary.com/dzwmrurhg/video/upload/v1754496965/video2.mp4",
+              thumbnailUrl:
+                "https://res.cloudinary.com/dzwmrurhg/image/upload/v1754496797/thumbnail-2.png",
               description: "Listen to that custom exhaust roar",
             },
             {
@@ -54,8 +59,9 @@ function App() {
               duration: "1:45",
               type: "guide" as const,
               videoUrl:
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-              thumbnailUrl: "https://picsum.photos/400/225?random=203",
+                "https://res.cloudinary.com/dzwmrurhg/video/upload/v1754496965/video3.mp4",
+              thumbnailUrl:
+                "https://res.cloudinary.com/dzwmrurhg/image/upload/v1754496797/thumbnail-3.png",
               description: "All lit up and ready to cruise",
             },
             {
@@ -64,9 +70,43 @@ function App() {
               duration: "4:20",
               type: "installation" as const,
               videoUrl:
-                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-              thumbnailUrl: "https://picsum.photos/400/225?random=204",
+                "https://res.cloudinary.com/dzwmrurhg/video/upload/v1754496965/video4.mp4",
+              thumbnailUrl:
+                "https://res.cloudinary.com/dzwmrurhg/image/upload/v1754496797/thumbnail-4.png",
               description: "Power and performance on the open road",
+            },
+            {
+              id: "video-5",
+              title: "Custom Details",
+              duration: "3:45",
+              type: "demo" as const,
+              videoUrl:
+                "https://res.cloudinary.com/dzwmrurhg/video/upload/v1754496965/video5.mp4",
+              thumbnailUrl:
+                "https://res.cloudinary.com/dzwmrurhg/image/upload/v1754496797/thumbnail-5.png",
+              description: "Close-up of custom modifications",
+            },
+            {
+              id: "video-6",
+              title: "Performance Test",
+              duration: "5:20",
+              type: "tutorial" as const,
+              videoUrl:
+                "https://res.cloudinary.com/dzwmrurhg/video/upload/v1754496965/video6.mp4",
+              thumbnailUrl:
+                "https://res.cloudinary.com/dzwmrurhg/image/upload/v1754496797/thumbnail-6.png",
+              description: "Testing the truck's performance",
+            },
+            {
+              id: "video-7",
+              title: "Final Showcase",
+              duration: "4:15",
+              type: "guide" as const,
+              videoUrl:
+                "https://res.cloudinary.com/dzwmrurhg/video/upload/v1754496965/video7.mp4",
+              thumbnailUrl:
+                "https://res.cloudinary.com/dzwmrurhg/image/upload/v1754496797/thumbnail-7.png",
+              description: "Complete showcase of the finished build",
             },
           ],
         };
@@ -93,6 +133,19 @@ function App() {
   const handleCloseVideoModal = () => {
     setIsVideoModalOpen(false);
     setSelectedVideo(null);
+  };
+
+  // Funciones del carrusel
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1 >= totalSlides ? 0 : prev + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 < 0 ? totalSlides - 1 : prev - 1));
+  };
+
+  const goToSlide = (slideIndex: number) => {
+    setCurrentSlide(slideIndex);
   };
 
   // Loading state
@@ -150,45 +203,59 @@ function App() {
       <main className="hero-section">
         <div className="product-showcase">
           <div className="product-main-layout">
-            {/* 🖼️ IZQUIERDA - Visor 360° + Slider */}
+            {/* 🖼️ IZQUIERDA - Visor 360° + Slider - MOSTRAR SOLO EN PESTAÑA 360 */}
             <div className="viewer-main-area">
-              <Viewer360
-                ref={viewerRef}
-                productId={product.id}
-                totalImages={product.totalImages}
-                currentFrame={currentFrame}
-                onFrameChange={handleFrameChange}
-              />
-
-              {/* 🎚️ Rotation Slider - TU ESTILO ORIGINAL */}
-              <div className="rotation-control">
-                <div className="control-label">
-                  <h4>Rotate to explore</h4>
-                </div>
-
-                <div className="slider-wrapper">
-                  <div className="slider-track">
-                    <div
-                      className="slider-progress"
-                      style={{ width: `${progressPercentage}%` }}
-                    ></div>
-                  </div>
-
-                  <input
-                    type="range"
-                    min="1"
-                    max={totalFrames}
-                    value={currentFrame}
-                    onChange={handleSliderChange}
-                    className="slider-input"
+              {activeTab === "360" ? (
+                <>
+                  <Viewer360
+                    ref={viewerRef}
+                    productId={product.id}
+                    totalImages={product.totalImages}
+                    currentFrame={currentFrame}
+                    onFrameChange={handleFrameChange}
                   />
 
-                  <div
-                    className="slider-thumb-visual"
-                    style={{ left: `${progressPercentage}%` }}
-                  ></div>
+                  {/* 🎚️ Rotation Slider - TU ESTILO ORIGINAL */}
+                  <div className="rotation-control">
+                    <div className="control-label">
+                      <h4>Rotate to explore</h4>
+                    </div>
+
+                    <div className="slider-wrapper">
+                      <div className="slider-track">
+                        <div
+                          className="slider-progress"
+                          style={{ width: `${progressPercentage}%` }}
+                        ></div>
+                      </div>
+
+                      <input
+                        type="range"
+                        min="1"
+                        max={totalFrames}
+                        value={currentFrame}
+                        onChange={handleSliderChange}
+                        className="slider-input"
+                      />
+
+                      <div
+                        className="slider-thumb-visual"
+                        style={{ left: `${progressPercentage}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                // Mostrar placeholder cuando no esté en pestaña 360°
+                <div className="viewer-placeholder d-flex align-items-center justify-content-center text-center">
+                  <div>
+                    <h4 className="text-white mb-3">Mock-up Mode</h4>
+                    <p className="text-secondary">
+                      Switch to 360° tab to explore the interactive view
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* 📋 DERECHA - Info Panel TU DISEÑO ORIGINAL */}
@@ -215,167 +282,92 @@ function App() {
                 </div>
               </div>
 
-              {/* 🎯 Navigation Tabs - TU DISEÑO ORIGINAL */}
+              {/* 🎯 Navigation Tabs - NUEVA DINÁMICA */}
               <ul className="nav nav-tabs nav-tabs-custom">
                 <li className="nav-item">
                   <button
                     className={`nav-link ${
-                      activeTab === "overview" ? "active" : ""
+                      activeTab === "360" ? "active" : ""
                     }`}
-                    onClick={() => setActiveTab("overview")}
+                    onClick={() => setActiveTab("360")}
                   >
-                    Overview
+                    360°
                   </button>
                 </li>
                 <li className="nav-item">
                   <button
                     className={`nav-link ${
-                      activeTab === "installed" ? "active" : ""
+                      activeTab === "mockup1" ? "active" : ""
                     }`}
-                    onClick={() => setActiveTab("installed")}
+                    onClick={() => setActiveTab("mockup1")}
                   >
-                    Installed
+                    3D Model
                   </button>
                 </li>
                 <li className="nav-item">
                   <button
-                    className={`nav-link ${
-                      activeTab === "videos" ? "active" : ""
-                    }`}
-                    onClick={() => setActiveTab("videos")}
+                    className="nav-link"
+                    onClick={() => {
+                      // Scroll hacia los videos
+                      document.querySelector(".video-section")?.scrollIntoView({
+                        behavior: "smooth",
+                      });
+                    }}
                   >
                     Videos
                   </button>
                 </li>
               </ul>
 
-              {/* 📄 Tab Content */}
+              {/* 📄 Tab Content - NUEVA DINÁMICA */}
               <div className="tab-content">
-                {/* 📊 Overview Tab */}
-                {activeTab === "overview" && (
-                  <div className="tab-pane overview-content">
-                    <div className="stats-grid">
-                      <div className="stat-item">
-                        <span className="stat-number">5</span>
-                        <span className="stat-label">Modifications</span>
-                      </div>
-                      <div className="stat-item">
-                        <span className="stat-number">4</span>
-                        <span className="stat-label">Videos</span>
-                      </div>
-                    </div>
-
-                    <div className="description">
-                      This is my pride and joy - a completely custom truck build
-                      showcasing premium modifications and professional
-                      craftsmanship. Every detail has been carefully planned and
-                      executed to perfection.
-                    </div>
-
-                    <div className="project-details">
-                      <div className="d-flex justify-content-between mb-2">
-                        <span className="text-secondary">Build Type:</span>
-                        <span className="text-white fw-medium">
-                          Complete Custom
+                {/* 🔄 360° Tab - Mostrar el visor */}
+                {activeTab === "360" && (
+                  <div className="tab-pane tab-360-content">
+                    <div className="text-center">
+                      <h5 className="text-white mb-3">Interactive 360° View</h5>
+                      <p className="text-secondary mb-3">
+                        Drag to rotate and explore every angle of this custom
+                        build.
+                      </p>
+                      <div className="d-flex justify-content-center gap-3">
+                        <span className="badge bg-primary px-3 py-1 rounded-pill">
+                          16 Views
                         </span>
-                      </div>
-                      <div className="d-flex justify-content-between">
-                        <span className="text-secondary">Status:</span>
-                        <span className="text-success fw-medium">
-                          Delivered
+                        <span className="badge bg-secondary px-3 py-1 rounded-pill">
+                          High Resolution
                         </span>
                       </div>
                     </div>
                   </div>
                 )}
 
-                {/* 🔧 Installed Tab */}
-                {activeTab === "installed" && (
-                  <div className="tab-pane installed-content">
-                    <div className="modification-list">
-                      <div className="modification-item">
-                        <div className="modification-info">
-                          <div className="modification-name">
-                            Custom Round Grille
-                          </div>
-                          <div className="modification-details">
-                            Premium airflow design
-                          </div>
-                        </div>
-                        <div className="status-badge">✓ Installed</div>
-                      </div>
+                {/* 🎬 Mock up 1 Tab - Mostrar video */}
+                {activeTab === "mockup1" && (
+                  <div className="tab-pane mockup-content">
+                    <div className="text-center">
+                      <h5 className="text-white mb-3">3D Model View</h5>
+                      <p className="text-secondary mb-3">
+                        See the original design concept and 3D visualization.
+                      </p>
 
-                      <div className="modification-item">
-                        <div className="modification-info">
-                          <div className="modification-name">LED Light Bar</div>
-                          <div className="modification-details">
-                            High-performance lighting
-                          </div>
-                        </div>
-                        <div className="status-badge">✓ Installed</div>
-                      </div>
-
-                      <div className="modification-item">
-                        <div className="modification-info">
-                          <div className="modification-name">Custom Bumper</div>
-                          <div className="modification-details">
-                            Heavy-duty protection
-                          </div>
-                        </div>
-                        <div className="status-badge">✓ Installed</div>
-                      </div>
-
-                      <div className="modification-item">
-                        <div className="modification-info">
-                          <div className="modification-name">
-                            Chrome Accents
-                          </div>
-                          <div className="modification-details">
-                            Premium finish details
-                          </div>
-                        </div>
-                        <div className="status-badge">✓ Installed</div>
-                      </div>
-
-                      <div className="modification-item">
-                        <div className="modification-info">
-                          <div className="modification-name">
-                            Performance Exhaust
-                          </div>
-                          <div className="modification-details">
-                            Enhanced sound & performance
-                          </div>
-                        </div>
-                        <div className="status-badge">✓ Installed</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* 🎬 Videos Tab */}
-                {activeTab === "videos" && (
-                  <div className="tab-pane videos-content">
-                    <div className="video-list-compact">
-                      {product.videos.map((video) => (
-                        <div
-                          key={video.id}
-                          className="video-item-compact"
-                          onClick={() => handleVideoSelect(video)}
-                        >
-                          <div className="video-thumbnail-small">
-                            <span className="video-icon-small">🎬</span>
-                          </div>
-                          <div className="video-details-compact">
-                            <div className="video-title-compact">
-                              {video.title}
-                            </div>
-                            <div className="video-duration-compact">
-                              {video.duration}
+                      {/* Video del mockup */}
+                      <div className="mockup-video-container">
+                        <div className="ratio ratio-16x9">
+                          <div className="d-flex align-items-center justify-content-center bg-dark rounded">
+                            <div className="text-center">
+                              <div className="mb-3">
+                                <span className="display-1">🎨</span>
+                              </div>
+                              <h6 className="text-white mb-2">Mock-up Video</h6>
+                              <button className="btn btn-primary btn-lg rounded-pill px-4">
+                                <span className="me-2">▶️</span>
+                                Play Mock-up
+                              </button>
                             </div>
                           </div>
-                          <div className="play-indicator">▶️</div>
                         </div>
-                      ))}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -383,34 +375,68 @@ function App() {
             </div>
           </div>
 
-          {/* 🎬 VIDEO GALLERY - ABAJO DEL LAYOUT */}
+          {/* 🎬 VIDEO CAROUSEL - HORIZONTAL */}
           <div className="video-section">
             <div className="section-title">
               <h3>My Custom Truck</h3>
               <p>Check out these awesome shots of my ride</p>
             </div>
 
-            <div className={`video-grid videos-${product.videos.length}`}>
-              {product.videos.map((video) => (
+            <div className="video-carousel">
+              <div className="video-carousel-container">
                 <div
-                  key={video.id}
-                  className="video-card"
-                  onClick={() => handleVideoSelect(video)}
+                  className="video-carousel-track"
+                  style={{
+                    transform: `translateX(-${currentSlide * 100}%)`,
+                  }}
                 >
-                  <div className="video-thumbnail">
-                    <span className="video-icon">🎬</span>
-                  </div>
+                  {product.videos.map((video, index) => (
+                    <div
+                      key={video.id}
+                      className="video-carousel-item"
+                      onClick={() => handleVideoSelect(video)}
+                    >
+                      <div className="video-thumbnail">
+                        <img
+                          src={video.thumbnailUrl}
+                          alt={video.title}
+                          className="thumbnail-image"
+                        />
+                      </div>
 
-                  <div className="video-overlay">
-                    <div className="play-button"></div>
-                  </div>
+                      <div className="video-overlay">
+                        <div className="play-button"></div>
+                      </div>
 
-                  <div className="video-info">
-                    <h6 className="video-title">{video.title}</h6>
-                    <div className="video-duration">{video.duration}</div>
-                  </div>
+                      <div className="video-info">
+                        <h6 className="video-title">{video.title}</h6>
+                        <div className="video-duration">{video.duration}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+
+                {/* Controles del carrusel */}
+                <button className="carousel-btn carousel-btn-prev">
+                  <span>‹</span>
+                </button>
+                <button className="carousel-btn carousel-btn-next">
+                  <span>›</span>
+                </button>
+              </div>
+
+              {/* Indicadores */}
+              <div className="carousel-indicators">
+                {Array.from({ length: totalSlides }).map((_, index) => (
+                  <button
+                    key={index}
+                    className={`carousel-indicator ${
+                      currentSlide === index ? "active" : ""
+                    }`}
+                    onClick={() => goToSlide(index)}
+                  ></button>
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -228,6 +228,36 @@ body {
       }
     }
   }
+  .viewer-placeholder {
+    background: rgba(17, 24, 39, 0.98);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    height: 600px;
+    width: 100%;
+
+    h4 {
+      color: $white;
+      font-weight: $font-weight-semibold;
+    }
+
+    p {
+      color: $gray-400;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 1200px) {
+      height: 500px;
+    }
+
+    @media (max-width: 768px) {
+      height: 400px;
+    }
+
+    @media (max-width: 576px) {
+      height: 320px;
+    }
+  }
 }
 
 // 🎚️ ROTATION SLIDER - TU ESTILO ORIGINAL
@@ -590,18 +620,18 @@ body {
   }
 }
 
-// 🎬 VIDEO GALLERY - ABAJO DEL LAYOUT
+// 🎬 VIDEO CAROUSEL - HORIZONTAL
 .video-section {
-  margin-top: 0;
+  margin-top: 6rem;
   padding: 4rem 0;
 
   .section-title {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
 
     h3 {
       color: $white;
-      font-size: 2.25rem;
+      font-size: 2.5rem;
       font-weight: $font-weight-bold;
       margin-bottom: 1rem;
 
@@ -612,151 +642,219 @@ body {
 
     p {
       color: $gray-400;
-      font-size: 1.125rem;
+      font-size: 1.25rem;
       margin: 0;
       max-width: 600px;
       margin: 0 auto;
     }
   }
 
-  .video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
+  .video-carousel {
+    max-width: 1400px;
     margin: 0 auto;
-
-    // Responsive grid basado en número de videos
-    &.videos-1 {
-      grid-template-columns: 1fr;
-      max-width: 400px;
-    }
-    &.videos-2 {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    &.videos-3 {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    &.videos-4 {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (max-width: 992px) {
-      &.videos-3,
-      &.videos-4 {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+    position: relative;
+    padding: 0 100px; // Espacio para las flechas
 
     @media (max-width: 768px) {
-      grid-template-columns: repeat(2, 1fr) !important;
-      gap: 1.5rem;
+      padding: 0 70px;
     }
 
-    @media (max-width: 576px) {
-      grid-template-columns: 1fr !important;
-      max-width: 350px;
-    }
-  }
+    .video-carousel-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
 
-  .video-card {
-    position: relative;
-    cursor: pointer;
-    border-radius: 16px;
-    overflow: hidden;
-    background: linear-gradient(135deg, $gray-950 0%, $gray-900 100%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: all 0.4s ease;
+      .video-carousel-track {
+        display: flex;
+        gap: 2rem;
+        transition: transform 0.5s ease;
+        width: calc(100% * 3); // Width total para 3 slides
 
-    &:hover {
-      transform: translateY(-8px);
-      border-color: rgba(220, 38, 38, 0.4);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4),
-        0 0 80px rgba(220, 38, 38, 0.15);
+        @media (max-width: 768px) {
+          gap: 1rem;
+        }
+      }
+
+      .video-carousel-item {
+        flex: 0 0 calc((100% - 4rem) / 3); // 3 items por slide
+        cursor: pointer;
+        border-radius: 16px;
+        overflow: hidden;
+        background: linear-gradient(135deg, $gray-950 0%, $gray-900 100%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.4s ease;
+        position: relative;
+
+        &:hover {
+          transform: translateY(-8px);
+          border-color: rgba(220, 38, 38, 0.4);
+          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+
+          .video-overlay {
+            opacity: 1;
+          }
+
+          .play-button {
+            transform: scale(1.15);
+          }
+
+          .thumbnail-image {
+            transform: scale(1.05);
+          }
+        }
+
+        @media (max-width: 992px) {
+          flex: 0 0 calc((100% - 2rem) / 2); // 2 items en tablet
+        }
+
+        @media (max-width: 576px) {
+          flex: 0 0 100%; // 1 item en móvil
+        }
+      }
+
+      .video-thumbnail {
+        position: relative;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        background: linear-gradient(135deg, $gray-900 0%, $gray-800 100%);
+
+        .thumbnail-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: all 0.4s ease;
+        }
+      }
 
       .video-overlay {
-        opacity: 1;
-      }
-
-      .play-button {
-        transform: scale(1.1);
-      }
-
-      .video-icon {
-        filter: none;
-        transform: scale(1.05);
-      }
-    }
-
-    .video-thumbnail {
-      position: relative;
-      aspect-ratio: 16/9;
-      background: linear-gradient(135deg, $gray-900 0%, $gray-800 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .video-icon {
-        font-size: 2.5rem;
-        filter: grayscale(1) brightness(0.6);
-        transition: all 0.3s ease;
-      }
-    }
-
-    .video-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(
-        135deg,
-        rgba(0, 0, 0, 0.7) 0%,
-        rgba(220, 38, 38, 0.1) 100%
-      );
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: all 0.3s ease;
-
-      .play-button {
-        width: 60px;
-        height: 60px;
-        background: $white;
-        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.7) 0%,
+          rgba(220, 38, 38, 0.1) 100%
+        );
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        transition: all 0.4s ease;
 
-        &::before {
-          content: "";
-          width: 0;
-          height: 0;
-          border-left: 16px solid $black;
-          border-top: 10px solid transparent;
-          border-bottom: 10px solid transparent;
-          margin-left: 3px;
+        .play-button {
+          width: 60px;
+          height: 60px;
+          background: linear-gradient(135deg, $white 0%, #f8f9fa 100%);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+
+          &::before {
+            content: "";
+            width: 0;
+            height: 0;
+            border-left: 16px solid $black;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            margin-left: 4px;
+          }
+        }
+      }
+
+      .video-info {
+        padding: 1.25rem;
+
+        .video-title {
+          color: $white;
+          font-size: 1rem;
+          font-weight: $font-weight-semibold;
+          margin-bottom: 0.5rem;
+          line-height: 1.4;
+        }
+
+        .video-duration {
+          color: $gray-400;
+          font-size: 0.9rem;
         }
       }
     }
 
-    .video-info {
-      padding: 1.5rem;
+    // FLECHAS FUERA DEL CONTENEDOR
+    .carousel-btn {
+      position: absolute;
+      top: 40%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      color: $white;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease;
 
-      .video-title {
-        color: $white;
-        font-size: 1.1rem;
-        font-weight: $font-weight-semibold;
-        margin-bottom: 0.5rem;
-        line-height: 1.3;
+      &:hover {
+        background: rgba(220, 38, 38, 0.8);
+        border-color: rgba(220, 38, 38, 0.6);
+        transform: translateY(-50%) scale(1.1);
       }
 
-      .video-duration {
-        color: $gray-400;
-        font-size: 0.9rem;
+      &.carousel-btn-prev {
+        left: 20px;
+      }
+
+      &.carousel-btn-next {
+        right: 20px;
+      }
+
+      @media (max-width: 768px) {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+
+        &.carousel-btn-prev {
+          left: 10px;
+        }
+
+        &.carousel-btn-next {
+          right: 10px;
+        }
+      }
+    }
+
+    // INDICADORES ABAJO DEL CARRUSEL
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+      position: relative;
+      z-index: 5;
+
+      .carousel-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &.active {
+          background: $primary;
+          transform: scale(1.2);
+        }
+
+        &:hover {
+          background: rgba(220, 38, 38, 0.6);
+        }
       }
     }
   }
@@ -904,5 +1002,49 @@ h6 {
   .stats-grid {
     grid-template-columns: 1fr !important;
     gap: 1rem !important;
+  }
+}
+// 🎯 ESTILOS PARA TABS NUEVOS
+.tab-360-content {
+  padding: 2rem 1rem;
+  text-align: center;
+
+  h5 {
+    color: $white;
+    font-weight: $font-weight-semibold;
+  }
+
+  p {
+    color: $gray-400;
+    font-size: 1rem;
+  }
+
+  .badge {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+.mockup-content {
+  padding: 1.5rem;
+
+  h5 {
+    color: $white;
+    font-weight: $font-weight-semibold;
+  }
+
+  p {
+    color: $gray-400;
+    font-size: 1rem;
+  }
+}
+
+.mockup-video-container {
+  max-width: 500px;
+  margin: 1.5rem auto 0;
+
+  .ratio {
+    border-radius: 12px;
+    overflow: hidden;
   }
 }
