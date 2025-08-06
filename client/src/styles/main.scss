@@ -55,6 +55,7 @@ body {
   background: $black;
 
   @media (max-width: 768px) {
+    margin-top: 1.5rem;
     padding: 4rem 0 2rem;
     min-height: auto;
   }

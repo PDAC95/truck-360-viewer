@@ -69,7 +69,7 @@ const Viewer360 = forwardRef<
 
       // Scene con el mismo gris que el panel
       const scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x111827);
+      scene.background = new THREE.Color(0xffffff);
       sceneRef.current = scene;
 
       // Camera
@@ -98,7 +98,7 @@ const Viewer360 = forwardRef<
       canvas.style.display = "block";
 
       // Crear geometría del camión
-      const geometry = new THREE.PlaneGeometry(3, 2);
+      const geometry = new THREE.PlaneGeometry(3.5, 2.3);
       const material = new THREE.MeshBasicMaterial({
         transparent: true,
         alphaTest: 0.1,
